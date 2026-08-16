@@ -1,0 +1,2637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F4 Community</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f2f2f2;
+    color:#111;
+}
+
+header{
+    height:70px;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 4px 20px #0004;
+}
+
+.logo{
+    font-size:38px;
+    font-weight:1000;
+    letter-spacing:-5px;
+}
+
+.logo span{
+    color:#e50914;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    background:#e50914;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    overflow:hidden;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.logout{
+    border:0;
+    background:#e50914;
+    color:white;
+    padding:10px 15px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.container{
+    width:95%;
+    max-width:1250px;
+    margin:25px auto;
+    display:grid;
+    grid-template-columns:230px 1fr 280px;
+    gap:20px;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    background:#050505;
+    color:white;
+    border-radius:20px;
+    padding:20px;
+    height:max-content;
+    position:sticky;
+    top:90px;
+}
+
+.profile{
+    text-align:center;
+    padding-bottom:20px;
+    border-bottom:1px solid #333;
+}
+
+.profile-avatar{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#e50914;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.profile-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.profile h3{
+    margin-top:12px;
+}
+
+.profile p{
+    color:#888;
+    font-size:11px;
+    margin-top:5px;
+    word-break:break-word;
+}
+
+.upload{
+    display:inline-block;
+    margin-top:12px;
+    background:white;
+    color:#111;
+    padding:8px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.menu{
+    margin-top:18px;
+}
+
+.menu button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#bbb;
+    padding:13px;
+    text-align:left;
+    border-radius:9px;
+    cursor:pointer;
+    margin-bottom:4px;
+}
+
+.menu button:hover{
+    background:#e50914;
+    color:white;
+}
+
+/* MAIN */
+
+.welcome{
+    background:linear-gradient(135deg,#050505,#252525);
+    color:white;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:18px;
+}
+
+.welcome h1{
+    font-size:28px;
+}
+
+.welcome span{
+    color:#e50914;
+}
+
+.welcome p{
+    color:#aaa;
+    margin-top:7px;
+}
+
+/* COMPOSER */
+
+.composer{
+    background:white;
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:18px;
+    box-shadow:0 4px 20px #0001;
+}
+
+textarea{
+    width:100%;
+    min-height:100px;
+    resize:none;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:13px;
+    font-family:inherit;
+    outline:none;
+}
+
+textarea:focus{
+    border-color:#e50914;
+}
+
+.composer-bottom{
+    margin-top:12px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.media{
+    display:flex;
+    gap:8px;
+}
+
+.media label{
+    background:#eee;
+    padding:9px 12px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.post-btn{
+    border:0;
+    background:#e50914;
+    color:white;
+    padding:10px 18px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.preview{
+    display:none;
+    margin-top:10px;
+    background:#111;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.preview img,
+.preview video{
+    width:100%;
+    max-height:350px;
+    object-fit:contain;
+    display:block;
+}
+
+/* POSTS */
+
+.post{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 4px 20px #0001;
+    animation:appear .3s ease;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.post-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.post-avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    font-weight:bold;
+}
+
+.post-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.author{
+    font-weight:bold;
+}
+
+.post-time{
+    color:#999;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.post-options{
+    margin-left:auto;
+    display:flex;
+    gap:5px;
+}
+
+.post-options button{
+    border:0;
+    background:#eee;
+    padding:7px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.post-text{
+    margin:15px 0;
+    line-height:1.5;
+    white-space:pre-wrap;
+}
+
+.post-media{
+    width:100%;
+    max-height:550px;
+    object-fit:contain;
+    background:#000;
+    border-radius:13px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid #eee;
+}
+
+.action{
+    flex:1;
+    border:0;
+    background:#eee;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.action.liked{
+    color:#e50914;
+}
+
+/* COMMENTS */
+
+.comments{
+    margin-top:12px;
+}
+
+.comment{
+    background:#f1f1f1;
+    padding:9px;
+    border-radius:9px;
+    margin-top:7px;
+    font-size:13px;
+}
+
+.comment strong{
+    color:#e50914;
+}
+
+.comment-form{
+    display:flex;
+    gap:7px;
+    margin-top:10px;
+}
+
+.comment-form input{
+    flex:1;
+    border:1px solid #ddd;
+    padding:9px;
+    border-radius:8px;
+    outline:none;
+}
+
+.comment-form button{
+    border:0;
+    background:#050505;
+    color:white;
+    padding:0 13px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* RIGHT */
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 4px 20px #0001;
+}
+
+.card-title{
+    font-weight:bold;
+    margin-bottom:14px;
+}
+
+/* MEMBERS */
+
+.member{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:9px 0;
+    border-bottom:1px solid #eee;
+}
+
+.member:last-child{
+    border-bottom:0;
+}
+
+.member-avatar{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    font-weight:bold;
+}
+
+.member-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.member-name{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.member-status{
+    color:#777;
+    font-size:10px;
+}
+
+.online{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#18b84b;
+}
+
+/* ANNOUNCEMENTS */
+
+.announcement{
+    background:#050505;
+    color:white;
+    padding:12px;
+    border-radius:11px;
+    margin-bottom:8px;
+}
+
+.announcement small{
+    color:#aaa;
+}
+
+.announcement p{
+    margin-top:6px;
+    line-height:1.4;
+}
+
+/* CHAT */
+
+.chat{
+    background:#050505;
+    color:white;
+    border-radius:18px;
+    padding:15px;
+}
+
+.chat-messages{
+    height:300px;
+    overflow-y:auto;
+}
+
+.chat-message{
+    margin-bottom:12px;
+}
+
+.chat-name{
+    color:#ff2632;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.chat-text{
+    display:inline-block;
+    background:#191919;
+    padding:8px 10px;
+    border-radius:8px;
+    margin-top:3px;
+}
+
+.chat-form{
+    display:flex;
+    gap:6px;
+    margin-top:10px;
+}
+
+.chat-form input{
+    flex:1;
+    background:#181818;
+    color:white;
+    border:1px solid #333;
+    border-radius:8px;
+    padding:10px;
+    outline:none;
+}
+
+.chat-form button{
+    background:#e50914;
+    color:white;
+    border:0;
+    border-radius:8px;
+    padding:0 13px;
+    cursor:pointer;
+}
+
+/* LOADING */
+
+#loading{
+    position:fixed;
+    inset:0;
+    background:#050505;
+    color:white;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.loading-logo{
+    font-size:75px;
+    font-weight:1000;
+    letter-spacing:-8px;
+}
+
+.loading-logo span{
+    color:#e50914;
+}
+
+.loader{
+    width:150px;
+    height:3px;
+    background:#222;
+    margin-top:20px;
+    overflow:hidden;
+}
+
+.loader div{
+    width:50%;
+    height:100%;
+    background:#e50914;
+    animation:loading 1s infinite;
+}
+
+@keyframes loading{
+    from{transform:translateX(-150%);}
+    to{transform:translateX(300%);}
+}
+
+/* TOAST */
+
+#toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translate(-50%,100px);
+    background:#050505;
+    color:white;
+    padding:12px 18px;
+    border-radius:10px;
+    transition:.3s;
+    z-index:10000;
+}
+
+#toast.show{
+    transform:translate(-50%,0);
+}
+
+/* MOBILE */
+
+@media(max-width:1050px){
+
+    .container{
+        grid-template-columns:220px 1fr;
+    }
+
+    .right{
+        display:none;
+    }
+}
+
+@media(max-width:700px){
+
+    .container{
+        display:block;
+    }
+
+    .sidebar{
+        position:static;
+        margin-bottom:18px;
+    }
+
+    .right{
+        display:block;
+    }
+
+    .composer-bottom{
+        flex-direction:column;
+    }
+
+    .post-btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div id="loading">
+
+    <div class="loading-logo">
+        F<span>4</span>
+    </div>
+
+    <div class="loader">
+        <div></div>
+    </div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        F<span>4</span>
+    </div>
+
+    <div class="header-right">
+
+        <div id="headerAvatar" class="avatar">
+            F
+        </div>
+
+        <button id="logoutBtn" class="logout">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="profile">
+
+        <div id="profileAvatar" class="profile-avatar">
+            F
+        </div>
+
+        <h3 id="profileName">
+            Loading...
+        </h3>
+
+        <p id="profileEmail">
+            Loading...
+        </p>
+
+        <label class="upload">
+
+            🖼️ Change Picture
+
+            <input
+                type="file"
+                id="profileInput"
+                accept="image/*"
+                hidden
+            >
+
+        </label>
+
+    </div>
+
+
+    <div class="menu">
+
+        <button onclick="topPage()">
+            🏠 Home
+        </button>
+
+        <button onclick="postFocus()">
+            📝 Create Post
+        </button>
+
+        <button onclick="chatFocus()">
+            🔴 Live Chat
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN FEED -->
+
+<main>
+
+    <section class="welcome">
+
+        <h1>
+            Welcome,
+            <span id="welcomeName">
+                F4 Member
+            </span>
+            👑
+        </h1>
+
+        <p>
+            Official F4 Community
+        </p>
+
+    </section>
+
+
+    <!-- POST BOX -->
+
+    <section class="composer" id="composer">
+
+        <textarea
+            id="postText"
+            placeholder="What's happening in F4?"
+        ></textarea>
+
+
+        <div
+            id="preview"
+            class="preview"
+        ></div>
+
+
+        <div class="composer-bottom">
+
+            <div class="media">
+
+                <label>
+
+                    📸 Photo
+
+                    <input
+                        type="file"
+                        id="photoInput"
+                        accept="image/*"
+                        hidden
+                    >
+
+                </label>
+
+
+                <label>
+
+                    🎥 Video
+
+                    <input
+                        type="file"
+                        id="videoInput"
+                        accept="video/*"
+                        hidden
+                    >
+
+                </label>
+
+            </div>
+
+
+            <button
+                id="postBtn"
+                class="post-btn"
+            >
+                🚀 Post
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEED -->
+
+    <section id="feed">
+
+        <div class="post">
+            Loading F4 feed...
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- RIGHT -->
+
+<aside class="right">
+
+    <!-- MEMBERS -->
+
+    <div class="card">
+
+        <div class="card-title">
+            👥 F4 Members
+        </div>
+
+        <div id="membersList">
+            Loading F4 members...
+        </div>
+
+    </div>
+
+
+    <!-- ANNOUNCEMENTS -->
+
+    <div class="card">
+
+        <div class="card-title">
+            📢 Announcements
+        </div>
+
+        <div id="announcements">
+            No announcements yet.
+        </div>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div class="chat" id="chatBox">
+
+        <div class="card-title">
+            🔴 F4 Live Chat
+        </div>
+
+        <div
+            id="chatMessages"
+            class="chat-messages"
+        ></div>
+
+
+        <form
+            id="chatForm"
+            class="chat-form"
+        >
+
+            <input
+                id="chatInput"
+                placeholder="Say something..."
+                autocomplete="off"
+            >
+
+            <button>
+                Send
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>
+    <a href="admin.html">Admin Access</a>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script type="module">
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    doc,
+    getDoc,
+    setDoc,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp,
+    arrayUnion,
+    arrayRemove
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    onValue,
+    serverTimestamp as realtimeServerTimestamp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyAjPnE3Km8yo_57t6kpUc7Jj9TtXqeBKew",
+
+    authDomain:
+    "website-53417.firebaseapp.com",
+
+    projectId:
+    "website-53417",
+
+    storageBucket:
+    "website-53417.firebasestorage.app",
+
+    messagingSenderId:
+    "1049856174962",
+
+    appId:
+    "1:1049856174962:web:dd00fbfdb5ed6bd66a8beb",
+
+    measurementId:
+    "G-MGPGXVFKWH",
+
+    databaseURL:
+    "https://website-53417-default-rtdb.europe-west1.firebasedatabase.app/"
+};
+
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+const realtimeDB =
+getDatabase(app);
+
+
+/* =====================================================
+   CLOUDINARY
+===================================================== */
+
+const CLOUDINARY_CLOUD_NAME =
+"dtdvur5lw";
+
+const CLOUDINARY_UPLOAD_PRESET =
+"emmanuel";
+
+const CLOUDINARY_URL =
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+let currentUser = null;
+
+let currentProfile = null;
+
+let selectedFile = null;
+
+let selectedType = "";
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+onAuthStateChanged(
+    auth,
+    async user => {
+
+        if(!user){
+
+            window.location.href =
+            "login.html";
+
+            return;
+        }
+
+
+        currentUser = user;
+
+
+        /*
+        IMPORTANT:
+
+        We DO NOT create a Firebase
+        user here.
+
+        We only check whether the
+        signup page already created
+        an F4 member profile.
+        */
+
+        const userRef =
+        doc(
+            db,
+            "users",
+            user.uid
+        );
+
+
+        const snapshot =
+        await getDoc(userRef);
+
+
+        if(!snapshot.exists()){
+
+            await rejectUser();
+
+            return;
+        }
+
+
+        const data =
+        snapshot.data();
+
+
+        /*
+        THIS IS THE IMPORTANT FILTER.
+
+        Only users created through
+        the F4 signup system with:
+
+        f4Member: true
+
+        can enter.
+        */
+
+        if(data.f4Member !== true){
+
+            await rejectUser();
+
+            return;
+        }
+
+
+        currentProfile =
+        data;
+
+
+        displayProfile();
+
+
+        document
+        .getElementById("loading")
+        .style.display = "none";
+
+
+        loadFeed();
+
+        loadMembers();
+
+        loadAnnouncements();
+
+        loadChat();
+
+    }
+);
+
+
+/* =====================================================
+   REJECT NON-F4 USERS
+===================================================== */
+
+async function rejectUser(){
+
+    alert(
+        "This account is not registered as an F4 Community member."
+    );
+
+
+    await signOut(auth);
+
+
+    window.location.href =
+    "login.html";
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function displayProfile(){
+
+    const name =
+    currentProfile.name ||
+    currentUser.email
+    .split("@")[0];
+
+
+    document
+    .getElementById("profileName")
+    .textContent = name;
+
+
+    document
+    .getElementById("profileEmail")
+    .textContent =
+    currentProfile.email ||
+    currentUser.email;
+
+
+    document
+    .getElementById("welcomeName")
+    .textContent = name;
+
+
+    const letter =
+    name.charAt(0).toUpperCase();
+
+
+    if(currentProfile.photoURL){
+
+        document
+        .getElementById("profileAvatar")
+        .innerHTML =
+        `<img src="${escapeHTML(
+            currentProfile.photoURL
+        )}">`;
+
+
+        document
+        .getElementById("headerAvatar")
+        .innerHTML =
+        `<img src="${escapeHTML(
+            currentProfile.photoURL
+        )}">`;
+
+    }else{
+
+        document
+        .getElementById("profileAvatar")
+        .textContent =
+        letter;
+
+
+        document
+        .getElementById("headerAvatar")
+        .textContent =
+        letter;
+    }
+
+}
+
+
+/* =====================================================
+   CLOUDINARY UPLOAD
+===================================================== */
+
+async function uploadCloudinary(file){
+
+    const formData =
+    new FormData();
+
+
+    formData.append(
+        "file",
+        file
+    );
+
+
+    formData.append(
+        "upload_preset",
+        CLOUDINARY_UPLOAD_PRESET
+    );
+
+
+    const response =
+    await fetch(
+        CLOUDINARY_URL,
+        {
+            method:"POST",
+            body:formData
+        }
+    );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "Cloudinary upload failed."
+        );
+    }
+
+
+    const data =
+    await response.json();
+
+
+    return data.secure_url;
+}
+
+
+/* =====================================================
+   PROFILE PICTURE
+===================================================== */
+
+document
+.getElementById("profileInput")
+.addEventListener(
+    "change",
+    async event => {
+
+        const file =
+        event.target.files[0];
+
+
+        if(!file) return;
+
+
+        try{
+
+            showToast(
+                "Uploading picture..."
+            );
+
+
+            const url =
+            await uploadCloudinary(
+                file
+            );
+
+
+            await updateDoc(
+
+                doc(
+                    db,
+                    "users",
+                    currentUser.uid
+                ),
+
+                {
+                    photoURL:url
+                }
+
+            );
+
+
+            currentProfile.photoURL =
+            url;
+
+
+            displayProfile();
+
+
+            showToast(
+                "Profile picture updated!"
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+            showToast(
+                "Upload failed."
+            );
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MEDIA SELECT
+===================================================== */
+
+document
+.getElementById("photoInput")
+.addEventListener(
+    "change",
+    event => {
+
+        const file =
+        event.target.files[0];
+
+        if(!file) return;
+
+        selectedFile = file;
+
+        selectedType = "image";
+
+        previewMedia(file);
+    }
+);
+
+
+document
+.getElementById("videoInput")
+.addEventListener(
+    "change",
+    event => {
+
+        const file =
+        event.target.files[0];
+
+        if(!file) return;
+
+        selectedFile = file;
+
+        selectedType = "video";
+
+        previewMedia(file);
+    }
+);
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function previewMedia(file){
+
+    const preview =
+    document.getElementById(
+        "preview"
+    );
+
+
+    const url =
+    URL.createObjectURL(file);
+
+
+    preview.style.display =
+    "block";
+
+
+    if(selectedType === "image"){
+
+        preview.innerHTML =
+        `<img src="${url}">`;
+
+    }else{
+
+        preview.innerHTML =
+        `<video src="${url}" controls></video>`;
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE POST
+===================================================== */
+
+document
+.getElementById("postBtn")
+.addEventListener(
+    "click",
+    async () => {
+
+        /*
+        Extra protection:
+        only F4 members can post.
+        */
+
+        if(
+            !currentProfile ||
+            currentProfile.f4Member !== true
+        ){
+
+            showToast(
+                "Only F4 members can post."
+            );
+
+            return;
+        }
+
+
+        const text =
+        document
+        .getElementById("postText")
+        .value
+        .trim();
+
+
+        if(!text && !selectedFile){
+
+            showToast(
+                "Write something or choose media."
+            );
+
+            return;
+        }
+
+
+        const button =
+        document.getElementById(
+            "postBtn"
+        );
+
+
+        button.disabled = true;
+
+        button.textContent =
+        "Uploading...";
+
+
+        try{
+
+            let mediaURL = "";
+
+
+            if(selectedFile){
+
+                mediaURL =
+                await uploadCloudinary(
+                    selectedFile
+                );
+            }
+
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "posts"
+                ),
+
+                {
+
+                    uid:
+                    currentUser.uid,
+
+                    name:
+                    currentProfile.name,
+
+                    photoURL:
+                    currentProfile.photoURL ||
+                    "",
+
+                    text:text,
+
+                    mediaURL:
+                    mediaURL,
+
+                    mediaType:
+                    selectedType,
+
+                    likes:[],
+
+                    f4Post:true,
+
+                    createdAt:
+                    serverTimestamp()
+
+                }
+
+            );
+
+
+            document
+            .getElementById("postText")
+            .value = "";
+
+
+            document
+            .getElementById("photoInput")
+            .value = "";
+
+
+            document
+            .getElementById("videoInput")
+            .value = "";
+
+
+            document
+            .getElementById("preview")
+            .innerHTML = "";
+
+
+            document
+            .getElementById("preview")
+            .style.display =
+            "none";
+
+
+            selectedFile = null;
+
+            selectedType = "";
+
+
+            showToast(
+                "Posted to F4 🔥"
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+            showToast(
+                error.message
+            );
+
+        }finally{
+
+            button.disabled = false;
+
+            button.textContent =
+            "🚀 Post";
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOAD F4 FEED
+===================================================== */
+
+function loadFeed(){
+
+    const feedQuery =
+    query(
+
+        collection(
+            db,
+            "posts"
+        ),
+
+        orderBy(
+            "createdAt",
+            "desc"
+        )
+
+    );
+
+
+    onSnapshot(
+        feedQuery,
+        snapshot => {
+
+            const feed =
+            document.getElementById(
+                "feed"
+            );
+
+
+            feed.innerHTML = "";
+
+
+            let f4Posts = 0;
+
+
+            snapshot.forEach(
+                postDoc => {
+
+                    const post =
+                    postDoc.data();
+
+
+                    /*
+                    IMPORTANT:
+
+                    Only posts created by
+                    F4 members are shown.
+
+                    */
+
+                    if(post.f4Post !== true){
+
+                        return;
+                    }
+
+
+                    f4Posts++;
+
+
+                    renderPost(
+                        postDoc.id,
+                        post,
+                        feed
+                    );
+
+                }
+            );
+
+
+            if(f4Posts === 0){
+
+                feed.innerHTML =
+                `
+                <div class="post">
+                    No F4 posts yet.
+                    Be the first to post 🔥
+                </div>
+                `;
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RENDER POST
+===================================================== */
+
+function renderPost(
+    postId,
+    post,
+    feed
+){
+
+    const likes =
+    Array.isArray(post.likes)
+    ? post.likes
+    : [];
+
+
+    const liked =
+    likes.includes(
+        currentUser.uid
+    );
+
+
+    const owner =
+    post.uid ===
+    currentUser.uid;
+
+
+    const article =
+    document.createElement(
+        "article"
+    );
+
+
+    article.className =
+    "post";
+
+
+    let media = "";
+
+
+    if(
+        post.mediaURL &&
+        post.mediaType === "image"
+    ){
+
+        media =
+        `
+        <img
+            class="post-media"
+            src="${escapeHTML(post.mediaURL)}"
+        >
+        `;
+    }
+
+
+    if(
+        post.mediaURL &&
+        post.mediaType === "video"
+    ){
+
+        media =
+        `
+        <video
+            class="post-media"
+            src="${escapeHTML(post.mediaURL)}"
+            controls
+        ></video>
+        `;
+    }
+
+
+    article.innerHTML =
+    `
+
+    <div class="post-head">
+
+        <div class="post-avatar">
+
+            ${
+                post.photoURL
+                ?
+                `<img src="${escapeHTML(
+                    post.photoURL
+                )}">`
+                :
+                escapeHTML(
+                    (post.name || "F")
+                    .charAt(0)
+                    .toUpperCase()
+                )
+            }
+
+        </div>
+
+
+        <div>
+
+            <div class="author">
+                ${escapeHTML(
+                    post.name ||
+                    "F4 Member"
+                )}
+            </div>
+
+            <div class="post-time">
+                F4 Community
+            </div>
+
+        </div>
+
+
+        ${
+            owner
+            ?
+            `
+            <div class="post-options">
+
+                <button class="edit">
+                    ✏️
+                </button>
+
+                <button class="delete">
+                    🗑️
+                </button>
+
+            </div>
+            `
+            :
+            ""
+        }
+
+    </div>
+
+
+    ${
+        post.text
+        ?
+        `<div class="post-text">
+            ${escapeHTML(post.text)}
+        </div>`
+        :
+        ""
+    }
+
+
+    ${media}
+
+
+    <div class="actions">
+
+        <button class="action like">
+            ❤️ ${likes.length}
+        </button>
+
+    </div>
+
+
+    <div class="comments">
+
+        <div class="comment-list">
+            Loading comments...
+        </div>
+
+
+        <form class="comment-form">
+
+            <input
+                placeholder="Write a comment..."
+            >
+
+            <button>
+                Send
+            </button>
+
+        </form>
+
+    </div>
+
+    `;
+
+
+    feed.appendChild(article);
+
+
+    /* LIKE */
+
+    const likeButton =
+    article.querySelector(
+        ".like"
+    );
+
+
+    if(liked){
+
+        likeButton.classList.add(
+            "liked"
+        );
+    }
+
+
+    likeButton.onclick =
+    async () => {
+
+        const postRef =
+        doc(
+            db,
+            "posts",
+            postId
+        );
+
+
+        if(liked){
+
+            await updateDoc(
+                postRef,
+                {
+                    likes:
+                    arrayRemove(
+                        currentUser.uid
+                    )
+                }
+            );
+
+        }else{
+
+            await updateDoc(
+                postRef,
+                {
+                    likes:
+                    arrayUnion(
+                        currentUser.uid
+                    )
+                }
+            );
+        }
+
+    };
+
+
+    /* DELETE */
+
+    if(owner){
+
+        article
+        .querySelector(".delete")
+        .onclick =
+        async () => {
+
+            if(
+                !confirm(
+                    "Delete this post?"
+                )
+            )
+                return;
+
+
+            await deleteDoc(
+
+                doc(
+                    db,
+                    "posts",
+                    postId
+                )
+
+            );
+
+
+            showToast(
+                "Post deleted."
+            );
+
+        };
+
+
+        /* EDIT */
+
+        article
+        .querySelector(".edit")
+        .onclick =
+        async () => {
+
+            const newText =
+            prompt(
+                "Edit your post:",
+                post.text || ""
+            );
+
+
+            if(
+                newText === null
+            )
+                return;
+
+
+            await updateDoc(
+
+                doc(
+                    db,
+                    "posts",
+                    postId
+                ),
+
+                {
+                    text:
+                    newText.trim()
+                }
+
+            );
+
+
+            showToast(
+                "Post updated."
+            );
+        };
+    }
+
+
+    /* COMMENTS */
+
+    loadComments(
+        postId,
+        article.querySelector(
+            ".comment-list"
+        )
+    );
+
+
+    article
+    .querySelector(
+        ".comment-form"
+    )
+    .onsubmit =
+    async event => {
+
+        event.preventDefault();
+
+
+        const input =
+        event.target.querySelector(
+            "input"
+        );
+
+
+        const text =
+        input.value.trim();
+
+
+        if(!text) return;
+
+
+        await addDoc(
+
+            collection(
+                db,
+                "posts",
+                postId,
+                "comments"
+            ),
+
+            {
+
+                uid:
+                currentUser.uid,
+
+                name:
+                currentProfile.name,
+
+                text:text,
+
+                f4Comment:true,
+
+                createdAt:
+                serverTimestamp()
+
+            }
+
+        );
+
+
+        input.value = "";
+
+    };
+
+}
+
+
+/* =====================================================
+   COMMENTS
+===================================================== */
+
+function loadComments(
+    postId,
+    container
+){
+
+    const commentsQuery =
+    query(
+
+        collection(
+            db,
+            "posts",
+            postId,
+            "comments"
+        ),
+
+        orderBy(
+            "createdAt",
+            "asc"
+        )
+
+    );
+
+
+    onSnapshot(
+        commentsQuery,
+        snapshot => {
+
+            container.innerHTML = "";
+
+
+            snapshot.forEach(
+                commentDoc => {
+
+                    const comment =
+                    commentDoc.data();
+
+
+                    const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                    div.className =
+                    "comment";
+
+
+                    div.innerHTML =
+                    `
+                    <strong>
+                        ${escapeHTML(
+                            comment.name ||
+                            "F4 Member"
+                        )}
+                    </strong>
+
+                    ${escapeHTML(
+                        comment.text ||
+                        ""
+                    )}
+                    `;
+
+
+                    container.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   F4 MEMBERS ONLY
+===================================================== */
+
+function loadMembers(){
+
+    onSnapshot(
+
+        collection(
+            db,
+            "users"
+        ),
+
+        snapshot => {
+
+            const list =
+            document.getElementById(
+                "membersList"
+            );
+
+
+            list.innerHTML = "";
+
+
+            let count = 0;
+
+
+            snapshot.forEach(
+                userDoc => {
+
+                    const member =
+                    userDoc.data();
+
+
+                    /*
+                    THIS IS THE FILTER.
+
+                    Firebase account alone
+                    is NOT enough.
+
+                    They must have:
+
+                    f4Member === true
+                    */
+
+
+                    if(
+                        member.f4Member !== true
+                    ){
+
+                        return;
+                    }
+
+
+                    count++;
+
+
+                    const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                    div.className =
+                    "member";
+
+
+                    div.innerHTML =
+                    `
+
+                    <div class="member-avatar">
+
+                        ${
+                            member.photoURL
+                            ?
+                            `<img src="${escapeHTML(
+                                member.photoURL
+                            )}">`
+                            :
+                            escapeHTML(
+                                (
+                                    member.name ||
+                                    "F"
+                                )
+                                .charAt(0)
+                                .toUpperCase()
+                            )
+                        }
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="member-name">
+
+                            ${escapeHTML(
+                                member.name ||
+                                "F4 Member"
+                            )}
+
+                        </div>
+
+                        <div class="member-status">
+
+                            <span class="online"></span>
+
+                            F4 Member
+
+                        </div>
+
+                    </div>
+
+                    `;
+
+
+                    list.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+
+            if(count === 0){
+
+                list.innerHTML =
+                `
+                <div style="color:#888;font-size:13px">
+                    No F4 members yet.
+                </div>
+                `;
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ANNOUNCEMENTS
+===================================================== */
+
+function loadAnnouncements(){
+
+    const announcementQuery =
+    query(
+
+        collection(
+            db,
+            "announcements"
+        ),
+
+        orderBy(
+            "createdAt",
+            "desc"
+        )
+
+    );
+
+
+    onSnapshot(
+        announcementQuery,
+        snapshot => {
+
+            const box =
+            document.getElementById(
+                "announcements"
+            );
+
+
+            box.innerHTML = "";
+
+
+            if(snapshot.empty){
+
+                box.innerHTML =
+                `
+                <div style="color:#888;font-size:12px">
+                    No announcements yet.
+                </div>
+                `;
+
+                return;
+            }
+
+
+            snapshot.forEach(
+                item => {
+
+                    const data =
+                    item.data();
+
+
+                    const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                    div.className =
+                    "announcement";
+
+
+                    div.innerHTML =
+                    `
+                    <small>
+                        👑 F4 Admin
+                    </small>
+
+                    <p>
+                        ${escapeHTML(
+                            data.text || ""
+                        )}
+                    </p>
+                    `;
+
+
+                    box.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   LIVE CHAT
+===================================================== */
+
+function loadChat(){
+
+    const chatRef =
+    ref(
+        realtimeDB,
+        "f4-chat"
+    );
+
+
+    onValue(
+        chatRef,
+        snapshot => {
+
+            const data =
+            snapshot.val() || {};
+
+
+            const box =
+            document.getElementById(
+                "chatMessages"
+            );
+
+
+            box.innerHTML = "";
+
+
+            Object
+            .values(data)
+            .forEach(
+                message => {
+
+                    const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                    div.className =
+                    "chat-message";
+
+
+                    div.innerHTML =
+                    `
+                    <div class="chat-name">
+
+                        ${escapeHTML(
+                            message.name ||
+                            "F4 Member"
+                        )}
+
+                    </div>
+
+                    <div class="chat-text">
+
+                        ${escapeHTML(
+                            message.message ||
+                            ""
+                        )}
+
+                    </div>
+                    `;
+
+
+                    box.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+
+            box.scrollTop =
+            box.scrollHeight;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SEND CHAT
+===================================================== */
+
+document
+.getElementById("chatForm")
+.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+
+        if(
+            !currentProfile ||
+            currentProfile.f4Member !== true
+        ){
+
+            return;
+        }
+
+
+        const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+        const message =
+        input.value.trim();
+
+
+        if(!message) return;
+
+
+        await push(
+
+            ref(
+                realtimeDB,
+                "f4-chat"
+            ),
+
+            {
+
+                uid:
+                currentUser.uid,
+
+                name:
+                currentProfile.name,
+
+                message:message,
+
+                f4Member:true,
+
+                createdAt:
+                realtimeServerTimestamp()
+
+            }
+
+        );
+
+
+        input.value = "";
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+        "login.html";
+
+    }
+);
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+function showToast(message){
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+    toast.textContent =
+    message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        3000
+    );
+
+}
+
+
+window.topPage =
+function(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+};
+
+
+window.postFocus =
+function(){
+
+    document
+    .getElementById("composer")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+
+    document
+    .getElementById("postText")
+    .focus();
+
+};
+
+
+window.chatFocus =
+function(){
+
+    document
+    .getElementById("chatBox")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+
+    document
+    .getElementById("chatInput")
+    .focus();
+
+};
+
+</script>
+
+</body>
+</html>

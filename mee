@@ -1,0 +1,27 @@
+ "https://website-53417-default-rtdb.europe-west1.firebasedatabase.app/"
+         const firebaseConfig = {
+      apiKey:
+          "AIzaSyAjPnE3Km8yo_57t6kpUc7Jj9TtXqeBKew",
+
+      authDomain:
+        "website-53417.firebaseapp.com",
+
+    projectId:
+        "website-53417",
+      storageBucket:
+         "website-53417.firebasestorage.app",
+
+     messagingSenderId:
+        "1049856174962",
+
+     appId:
+          "1:1049856174962:web:dd00fbfdb5ed6bd66a8beb",
+
+ 
+
+    
+
+    databaseURL:
+        "https://website-53417-default-rtdb.europe-west1.firebasedatabase.app/"
+
+};

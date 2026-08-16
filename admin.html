@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>F4 Admin Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f3f3f3;
+    color:#111;
+}
+
+header{
+    background:#050505;
+    color:white;
+    padding:18px 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-size:42px;
+    font-weight:1000;
+    letter-spacing:-6px;
+}
+
+.logo span{
+    color:#e50914;
+}
+
+.logout{
+    background:#e50914;
+    color:white;
+    border:0;
+    padding:10px 16px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.container{
+    width:94%;
+    max-width:1200px;
+    margin:25px auto;
+}
+
+.card{
+    background:white;
+    padding:22px;
+    border-radius:18px;
+    margin-bottom:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin-bottom:8px;
+}
+
+.subtitle{
+    color:#777;
+    margin-bottom:18px;
+}
+
+/* ANNOUNCEMENT */
+
+.announcement-box{
+    border-left:5px solid #e50914;
+}
+
+.announcement-box h2{
+    color:#e50914;
+}
+
+textarea{
+    width:100%;
+    min-height:130px;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    resize:vertical;
+    outline:none;
+    font-family:Arial;
+    font-size:15px;
+}
+
+textarea:focus{
+    border-color:#e50914;
+}
+
+.publish{
+    margin-top:12px;
+    background:#e50914;
+    color:white;
+    border:0;
+    padding:13px 20px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.publish:disabled{
+    opacity:.6;
+}
+
+.status{
+    margin-top:12px;
+    font-weight:bold;
+}
+
+/* ANNOUNCEMENTS */
+
+.announcement-item{
+    background:#050505;
+    color:white;
+    padding:16px;
+    border-radius:12px;
+    margin-top:12px;
+}
+
+.announcement-item p{
+    line-height:1.5;
+    margin-bottom:8px;
+}
+
+.announcement-item small{
+    color:#aaa;
+}
+
+.delete-announcement{
+    margin-top:10px;
+    background:#e50914;
+    color:white;
+    border:0;
+    padding:8px 12px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+/* SEARCH */
+
+.search{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    outline:none;
+    margin-bottom:15px;
+}
+
+/* MEMBERS */
+
+.member{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid #eee;
+}
+
+.member-avatar{
+    width:48px;
+    height:48px;
+    min-width:48px;
+    border-radius:50%;
+    background:#050505;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    overflow:hidden;
+}
+
+.member-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.member-info{
+    flex:1;
+}
+
+.member-name{
+    font-weight:bold;
+}
+
+.member-email{
+    color:#777;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.member-actions{
+    display:flex;
+    gap:7px;
+}
+
+.member-actions button{
+    border:0;
+    padding:8px 10px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.disable{
+    background:#111;
+    color:white;
+}
+
+.restore{
+    background:#ddd;
+    color:#111;
+}
+
+.delete{
+    background:#e50914;
+    color:white;
+}
+
+.empty{
+    text-align:center;
+    color:#888;
+    padding:20px;
+}
+
+/* LOADING */
+
+#loading{
+    position:fixed;
+    inset:0;
+    background:#050505;
+    color:white;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.loading-logo{
+    font-size:70px;
+    font-weight:1000;
+    letter-spacing:-8px;
+}
+
+.loading-logo span{
+    color:#e50914;
+}
+
+.loader{
+    width:150px;
+    height:3px;
+    background:#333;
+    margin-top:20px;
+    overflow:hidden;
+}
+
+.loader div{
+    width:50%;
+    height:100%;
+    background:#e50914;
+    animation:load 1s infinite;
+}
+
+@keyframes load{
+    from{
+        transform:translateX(-150%);
+    }
+
+    to{
+        transform:translateX(300%);
+    }
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:15px;
+    }
+
+    .logo{
+        font-size:35px;
+    }
+
+    .member{
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    .member-info{
+        min-width:calc(100% - 65px);
+    }
+
+    .member-actions{
+        width:100%;
+    }
+
+    .member-actions button{
+        flex:1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div id="loading">
+
+    <div class="loading-logo">
+        F<span>4</span>
+    </div>
+
+    <div class="loader">
+        <div></div>
+    </div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+        F<span>4</span>
+    </div>
+
+    <strong>
+        👑 Admin Dashboard
+    </strong>
+
+    <button
+        class="logout"
+        id="logoutBtn"
+    >
+        Logout
+    </button>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- ================================
+     ANNOUNCEMENT CREATOR
+================================ -->
+
+<div class="card announcement-box">
+
+    <h2>
+        📢 F4 Announcement
+    </h2>
+
+    <p class="subtitle">
+        Write an announcement here and it
+        will appear to all F4 members.
+    </p>
+
+    <textarea
+        id="announcementText"
+        placeholder="Write announcement..."
+    ></textarea>
+
+    <button
+        class="publish"
+        id="publishAnnouncement"
+    >
+        📢 Publish Announcement
+    </button>
+
+    <div
+        class="status"
+        id="announcementStatus"
+    ></div>
+
+</div>
+
+
+<!-- ================================
+     PUBLISHED ANNOUNCEMENTS
+================================ -->
+
+<div class="card">
+
+    <h2>
+        📢 Published Announcements
+    </h2>
+
+    <p class="subtitle">
+        Announcements currently visible to members.
+    </p>
+
+    <div id="announcementList">
+        Loading...
+    </div>
+
+</div>
+
+
+<!-- ================================
+     MEMBER MANAGEMENT
+================================ -->
+
+<div class="card">
+
+    <h2>
+        👥 F4 Members
+    </h2>
+
+    <p class="subtitle">
+        Members who registered through the F4 website.
+    </p>
+
+    <input
+        type="text"
+        class="search"
+        id="memberSearch"
+        placeholder="Search member..."
+    >
+
+    <div id="membersList">
+        Loading members...
+    </div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+/* ==========================================
+   FIREBASE
+========================================== */
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+
+import {
+    getFirestore,
+    collection,
+    doc,
+    onSnapshot,
+    addDoc,
+    deleteDoc,
+    updateDoc,
+    serverTimestamp,
+    query,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+/* ==========================================
+   FIREBASE CONFIG
+========================================== */
+
+const firebaseConfig = {
+
+    apiKey:
+    "AIzaSyAjPnE3Km8yo_57t6kpUc7Jj9TtXqeBKew",
+
+    authDomain:
+    "website-53417.firebaseapp.com",
+
+    projectId:
+    "website-53417",
+
+    storageBucket:
+    "website-53417.firebasestorage.app",
+
+    messagingSenderId:
+    "1049856174962",
+
+    appId:
+    "1:1049856174962:web:dd00fbfdb5ed6bd66a8beb",
+
+    measurementId:
+    "G-MGPGXVFKWH"
+};
+
+
+/* ==========================================
+   INITIALIZE
+========================================== */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+
+let currentUser = null;
+let allMembers = [];
+
+
+/* ==========================================
+   AUTH
+========================================== */
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if(!user){
+
+            window.location.href =
+            "login.html";
+
+            return;
+        }
+
+
+        currentUser = user;
+
+
+        document
+        .getElementById("loading")
+        .style.display = "none";
+
+
+        loadMembers();
+
+        loadAnnouncements();
+
+    }
+);
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+        "login.html";
+
+    }
+);
+
+
+/* ==========================================
+   CREATE ANNOUNCEMENT
+========================================== */
+
+document
+.getElementById("publishAnnouncement")
+.addEventListener(
+    "click",
+    async () => {
+
+        if(!currentUser){
+
+            alert(
+                "You must be logged in."
+            );
+
+            return;
+        }
+
+
+        const textarea =
+        document.getElementById(
+            "announcementText"
+        );
+
+
+        const status =
+        document.getElementById(
+            "announcementStatus"
+        );
+
+
+        const text =
+        textarea.value.trim();
+
+
+        if(!text){
+
+            status.textContent =
+            "⚠️ Write an announcement first.";
+
+            return;
+        }
+
+
+        const button =
+        document.getElementById(
+            "publishAnnouncement"
+        );
+
+
+        button.disabled = true;
+
+        button.textContent =
+        "Publishing...";
+
+
+        try{
+
+            await addDoc(
+
+                collection(
+                    db,
+                    "announcements"
+                ),
+
+                {
+                    text:text,
+
+                    uid:
+                    currentUser.uid,
+
+                    createdAt:
+                    serverTimestamp()
+                }
+
+            );
+
+
+            textarea.value = "";
+
+
+            status.textContent =
+            "✅ Announcement published successfully!";
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            status.textContent =
+            "❌ Firebase rejected the announcement.";
+
+        }
+
+
+        button.disabled = false;
+
+        button.textContent =
+        "📢 Publish Announcement";
+
+    }
+);
+
+
+/* ==========================================
+   LOAD ANNOUNCEMENTS
+========================================== */
+
+function loadAnnouncements(){
+
+    const q =
+    query(
+
+        collection(
+            db,
+            "announcements"
+        ),
+
+        orderBy(
+            "createdAt",
+            "desc"
+        )
+
+    );
+
+
+    onSnapshot(
+
+        q,
+
+        snapshot => {
+
+            const list =
+            document.getElementById(
+                "announcementList"
+            );
+
+
+            list.innerHTML = "";
+
+
+            if(snapshot.empty){
+
+                list.innerHTML =
+                `
+                <div class="empty">
+                    No announcements yet.
+                </div>
+                `;
+
+                return;
+            }
+
+
+            snapshot.forEach(
+                announcement => {
+
+                    const data =
+                    announcement.data();
+
+
+                    const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                    item.className =
+                    "announcement-item";
+
+
+                    item.innerHTML =
+                    `
+
+                    <p>
+                        ${escapeHTML(
+                            data.text || ""
+                        )}
+                    </p>
+
+                    <small>
+                        📢 F4 Admin
+                    </small>
+
+                    <br>
+
+                    <button
+                        class="delete-announcement"
+                    >
+                        🗑️ Delete
+                    </button>
+
+                    `;
+
+
+                    list.appendChild(item);
+
+
+                    item
+                    .querySelector(
+                        ".delete-announcement"
+                    )
+                    .addEventListener(
+                        "click",
+                        async () => {
+
+                            if(
+                                !confirm(
+                                    "Delete this announcement?"
+                                )
+                            ){
+
+                                return;
+
+                            }
+
+
+                            try{
+
+                                await deleteDoc(
+
+                                    doc(
+                                        db,
+                                        "announcements",
+                                        announcement.id
+                                    )
+
+                                );
+
+                            }catch(error){
+
+                                console.error(
+                                    error
+                                );
+
+                                alert(
+                                    "You are not allowed to delete this announcement."
+                                );
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+        },
+
+        error => {
+
+            console.error(error);
+
+            document
+            .getElementById(
+                "announcementList"
+            )
+            .innerHTML =
+            `
+            <div class="empty">
+                Unable to load announcements.
+            </div>
+            `;
+
+        }
+
+    );
+
+}
+
+
+/* ==========================================
+   LOAD MEMBERS
+========================================== */
+
+function loadMembers(){
+
+    onSnapshot(
+
+        collection(
+            db,
+            "users"
+        ),
+
+        snapshot => {
+
+            allMembers = [];
+
+
+            snapshot.forEach(
+                userDoc => {
+
+                    const data =
+                    userDoc.data();
+
+
+                    /*
+                    ONLY users created
+                    through your website.
+
+                    Your signup.html should
+                    save:
+
+                    f4Member: true
+                    */
+
+                    if(
+                        data.f4Member !== true
+                    ){
+
+                        return;
+                    }
+
+
+                    allMembers.push({
+
+                        id:
+                        userDoc.id,
+
+                        ...data
+
+                    });
+
+                }
+            );
+
+
+            renderMembers(
+                allMembers
+            );
+
+        },
+
+        error => {
+
+            console.error(error);
+
+            document
+            .getElementById(
+                "membersList"
+            )
+            .innerHTML =
+            `
+            <div class="empty">
+                Unable to load members.
+            </div>
+            `;
+
+        }
+
+    );
+
+}
+
+
+/* ==========================================
+   DISPLAY MEMBERS
+========================================== */
+
+function renderMembers(
+    members
+){
+
+    const list =
+    document.getElementById(
+        "membersList"
+    );
+
+
+    list.innerHTML = "";
+
+
+    if(members.length === 0){
+
+        list.innerHTML =
+        `
+        <div class="empty">
+            No F4 members found.
+        </div>
+        `;
+
+        return;
+    }
+
+
+    members.forEach(
+        member => {
+
+            const div =
+            document.createElement(
+                "div"
+            );
+
+
+            div.className =
+            "member";
+
+
+            const name =
+            member.name ||
+            "F4 Member";
+
+
+            const email =
+            member.email ||
+            "";
+
+
+            const initial =
+            name
+            .charAt(0)
+            .toUpperCase();
+
+
+            div.innerHTML =
+            `
+
+            <div class="member-avatar">
+
+                ${
+                    member.photoURL
+                    ?
+                    `<img
+                        src="${escapeHTML(
+                            member.photoURL
+                        )}"
+                    >`
+                    :
+                    initial
+                }
+
+            </div>
+
+
+            <div class="member-info">
+
+                <div class="member-name">
+
+                    ${escapeHTML(name)}
+
+                </div>
+
+                <div class="member-email">
+
+                    ${escapeHTML(email)}
+
+                </div>
+
+            </div>
+
+
+            <div class="member-actions">
+
+                <button
+                    class="${
+                        member.disabled
+                        ?
+                        "restore"
+                        :
+                        "disable"
+                    }"
+                    data-toggle
+                >
+
+                    ${
+                        member.disabled
+                        ?
+                        "♻️ Restore"
+                        :
+                        "🚫 Disable"
+                    }
+
+                </button>
+
+
+                <button
+                    class="delete"
+                    data-delete
+                >
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+            `;
+
+
+            list.appendChild(div);
+
+
+            /* DISABLE / RESTORE */
+
+            div
+            .querySelector(
+                "[data-toggle]"
+            )
+            .addEventListener(
+                "click",
+                async () => {
+
+                    try{
+
+                        await updateDoc(
+
+                            doc(
+                                db,
+                                "users",
+                                member.id
+                            ),
+
+                            {
+                                disabled:
+                                !member.disabled
+                            }
+
+                        );
+
+                    }catch(error){
+
+                        console.error(error);
+
+                        alert(
+                            "You are not allowed to change this member."
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /* DELETE MEMBER */
+
+            div
+            .querySelector(
+                "[data-delete]"
+            )
+            .addEventListener(
+                "click",
+                async () => {
+
+                    if(
+                        !confirm(
+                            "Remove this member from the website?"
+                        )
+                    ){
+
+                        return;
+
+                    }
+
+
+                    try{
+
+                        await deleteDoc(
+
+                            doc(
+                                db,
+                                "users",
+                                member.id
+                            )
+
+                        );
+
+                    }catch(error){
+
+                        console.error(error);
+
+                        alert(
+                            "You are not allowed to delete this member."
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+document
+.getElementById("memberSearch")
+.addEventListener(
+    "input",
+    event => {
+
+        const search =
+        event.target.value
+        .toLowerCase()
+        .trim();
+
+
+        const filtered =
+        allMembers.filter(
+            member => {
+
+                const name =
+                (
+                    member.name ||
+                    ""
+                )
+                .toLowerCase();
+
+
+                const email =
+                (
+                    member.email ||
+                    ""
+                )
+                .toLowerCase();
+
+
+                return(
+                    name.includes(search) ||
+                    email.includes(search)
+                );
+
+            }
+        );
+
+
+        renderMembers(
+            filtered
+        );
+
+    }
+);
+
+
+/* ==========================================
+   SECURITY
+========================================== */
+
+function escapeHTML(value){
+
+    return String(value || "")
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
