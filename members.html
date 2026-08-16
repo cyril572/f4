@@ -3,115 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>F4 Community</title>
 
 <style>
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --red:#e50914;
+    --black:#050505;
+    --dark:#111;
+    --gray:#777;
+    --light:#f4f4f4;
+    --white:#fff;
 }
 
 body{
-    font-family:Arial,sans-serif;
-    background:#f4f4f4;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--light);
     color:#111;
+    min-height:100vh;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 header{
-    background:#050505;
-    color:white;
-    padding:16px;
     position:sticky;
     top:0;
-    z-index:100;
-    box-shadow:0 4px 20px rgba(0,0,0,.2);
+    z-index:1000;
+    background:rgba(5,5,5,.96);
+    backdrop-filter:blur(15px);
+    color:white;
+    border-bottom:1px solid #222;
 }
 
 .nav{
-    max-width:1100px;
+    width:94%;
+    max-width:1150px;
     margin:auto;
+    min-height:65px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:15px;
 }
 
 .logo{
-    font-size:36px;
+    font-size:38px;
     font-weight:1000;
-    letter-spacing:-5px;
+    letter-spacing:-6px;
 }
 
 .logo span{
-    color:#e50914;
+    color:var(--red);
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .logout{
-    background:#e50914;
+    border:none;
+    background:var(--red);
     color:white;
-    border:0;
-    padding:9px 14px;
-    border-radius:8px;
+    padding:10px 15px;
+    border-radius:9px;
     font-weight:bold;
+    cursor:pointer;
 }
+
+/* =========================
+   MAIN
+========================= */
 
 .container{
     width:94%;
-    max-width:1100px;
-    margin:22px auto;
+    max-width:1150px;
+    margin:25px auto;
 }
 
-/* WELCOME */
+/* =========================
+   WELCOME
+========================= */
 
 .welcome{
-    background:#050505;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(
+        135deg,
+        #050505,
+        #171717
+    );
     color:white;
-    padding:25px;
-    border-radius:20px;
+    padding:30px;
+    border-radius:24px;
     margin-bottom:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.welcome:after{
+    content:"F4";
+    position:absolute;
+    right:-20px;
+    bottom:-55px;
+    font-size:170px;
+    font-weight:1000;
+    color:rgba(255,255,255,.035);
 }
 
 .welcome h1{
-    font-size:28px;
+    position:relative;
+    z-index:2;
+    font-size:30px;
 }
 
-.welcome span{
-    color:#e50914;
+.welcome h1 span{
+    color:var(--red);
 }
 
-/* CARDS */
+.welcome p{
+    position:relative;
+    z-index:2;
+    color:#bbb;
+    margin-top:8px;
+}
+
+/* =========================
+   CARDS
+========================= */
 
 .card{
     background:white;
+    border-radius:20px;
     padding:20px;
-    border-radius:18px;
     margin-bottom:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,.07);
+    box-shadow:0 6px 25px rgba(0,0,0,.06);
 }
 
-.card h2{
-    margin-bottom:14px;
+.card-title{
+    font-size:21px;
+    font-weight:800;
+    margin-bottom:15px;
 }
 
-/* ANNOUNCEMENT */
-
-.announcement{
-    border-left:5px solid #e50914;
-}
-
-.announcement-item{
-    background:#050505;
-    color:white;
-    padding:15px;
-    border-radius:12px;
-    margin-top:10px;
-}
-
-.announcement-item small{
-    color:#aaa;
-}
-
-/* PROFILE */
+/* =========================
+   PROFILE
+========================= */
 
 .profile{
     display:flex;
@@ -119,18 +165,26 @@ header{
     gap:15px;
 }
 
+.profile-pic-wrapper{
+    position:relative;
+}
+
 .profile-pic{
-    width:65px;
-    height:65px;
+    width:75px;
+    height:75px;
     border-radius:50%;
-    background:#050505;
+    background:var(--black);
     color:white;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:25px;
-    font-weight:bold;
+
     overflow:hidden;
+    font-size:28px;
+    font-weight:bold;
+
+    border:3px solid var(--red);
 }
 
 .profile-pic img{
@@ -139,72 +193,174 @@ header{
     object-fit:cover;
 }
 
+.change-photo{
+    position:absolute;
+    right:-4px;
+    bottom:-4px;
+
+    width:28px;
+    height:28px;
+    border-radius:50%;
+
+    border:2px solid white;
+    background:var(--red);
+    color:white;
+
+    cursor:pointer;
+}
+
+.profile-info{
+    flex:1;
+}
+
 .profile-name{
     font-size:20px;
     font-weight:bold;
 }
 
 .profile-email{
-    color:#777;
+    color:var(--gray);
     font-size:13px;
+    margin-top:4px;
 }
 
-/* POST */
+/* =========================
+   ANNOUNCEMENTS
+========================= */
 
-textarea{
-    width:100%;
-    min-height:100px;
-    padding:14px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    resize:vertical;
-    outline:none;
-    font-family:Arial;
+.announcement-card{
+    border-left:5px solid var(--red);
 }
 
-textarea:focus{
-    border-color:#e50914;
-}
-
-button{
-    cursor:pointer;
-}
-
-.post-btn{
-    background:#e50914;
+.announcement{
+    background:var(--black);
     color:white;
-    border:0;
-    padding:11px 18px;
+    padding:16px;
+    border-radius:13px;
+    margin-bottom:10px;
+}
+
+.announcement:last-child{
+    margin-bottom:0;
+}
+
+.announcement-text{
+    line-height:1.55;
+}
+
+.announcement-footer{
+    color:#999;
+    font-size:11px;
+    margin-top:8px;
+}
+
+/* =========================
+   COMPOSER
+========================= */
+
+.composer textarea{
+    width:100%;
+    min-height:110px;
+    resize:vertical;
+
+    border:1px solid #ddd;
+    border-radius:14px;
+
+    padding:14px;
+
+    font-family:Arial;
+    font-size:15px;
+
+    outline:none;
+}
+
+.composer textarea:focus{
+    border-color:var(--red);
+}
+
+.upload-preview{
+    margin-top:12px;
+}
+
+.preview-image,
+.preview-video{
+    max-width:100%;
+    max-height:300px;
+    border-radius:13px;
+    display:none;
+}
+
+.composer-tools{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:12px;
+}
+
+.upload-buttons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.upload-btn{
+    background:#eee;
+    border:none;
+    padding:10px 13px;
     border-radius:9px;
-    margin-top:10px;
+    cursor:pointer;
     font-weight:bold;
 }
 
-/* POSTS */
+.upload-btn:hover{
+    background:#ddd;
+}
+
+.post-btn{
+    background:var(--red);
+    color:white;
+    border:none;
+    padding:11px 20px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.post-btn:disabled{
+    opacity:.5;
+}
+
+/* =========================
+   FEED
+========================= */
 
 .post{
+    background:white;
     border:1px solid #eee;
-    padding:15px;
-    border-radius:14px;
-    margin-top:15px;
+    border-radius:17px;
+    padding:16px;
+    margin-bottom:14px;
 }
 
 .post-header{
     display:flex;
-    gap:10px;
     align-items:center;
+    gap:10px;
 }
 
 .post-avatar{
-    width:42px;
-    height:42px;
+    width:45px;
+    height:45px;
     border-radius:50%;
-    background:#050505;
-    color:white;
+    overflow:hidden;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
+
+    background:var(--black);
+    color:white;
     font-weight:bold;
 }
 
@@ -214,62 +370,94 @@ button{
     object-fit:cover;
 }
 
+.post-user{
+    flex:1;
+}
+
 .post-name{
     font-weight:bold;
 }
 
 .post-time{
-    color:#888;
+    color:#999;
     font-size:11px;
+    margin-top:3px;
 }
 
 .post-text{
-    margin-top:13px;
-    line-height:1.5;
+    margin-top:14px;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.post-media{
+    margin-top:14px;
+}
+
+.post-media img,
+.post-media video{
+    display:block;
+    width:100%;
+    max-height:500px;
+    object-fit:contain;
+    border-radius:14px;
+    background:#050505;
 }
 
 .post-actions{
     display:flex;
-    gap:10px;
-    margin-top:12px;
+    align-items:center;
+    gap:8px;
+    margin-top:13px;
 }
 
 .post-actions button{
+    border:none;
     background:#eee;
-    border:0;
     padding:8px 12px;
     border-radius:8px;
+    cursor:pointer;
 }
 
 .delete-post{
-    background:#e50914 !important;
+    background:var(--red)!important;
     color:white;
 }
 
-/* MEMBERS */
+/* =========================
+   MEMBERS
+========================= */
+
+.member-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
 
 .member{
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:12px 0;
-    border-bottom:1px solid #eee;
-}
-
-.member:last-child{
-    border-bottom:0;
+    gap:10px;
+    padding:12px;
+    border:1px solid #eee;
+    border-radius:13px;
 }
 
 .member-avatar{
     width:45px;
     height:45px;
+    min-width:45px;
+
     border-radius:50%;
-    background:#050505;
+    overflow:hidden;
+
+    background:var(--black);
     color:white;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
+
     font-weight:bold;
 }
 
@@ -279,27 +467,38 @@ button{
     object-fit:cover;
 }
 
-.member-info{
-    flex:1;
-}
-
 .member-name{
     font-weight:bold;
 }
 
 .member-status{
     color:#16a34a;
-    font-size:12px;
+    font-size:11px;
+    margin-top:4px;
 }
 
-/* LOADING */
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    padding:25px;
+    text-align:center;
+    color:#888;
+}
+
+/* =========================
+   LOADING
+========================= */
 
 #loading{
     position:fixed;
     inset:0;
+    z-index:9999;
+
     background:#050505;
     color:white;
-    z-index:9999;
+
     display:flex;
     align-items:center;
     justify-content:center;
@@ -307,13 +506,13 @@ button{
 }
 
 .loading-logo{
-    font-size:65px;
+    font-size:70px;
     font-weight:1000;
     letter-spacing:-8px;
 }
 
 .loading-logo span{
-    color:#e50914;
+    color:var(--red);
 }
 
 .loader{
@@ -325,41 +524,140 @@ button{
 }
 
 .loader div{
-    height:100%;
     width:50%;
-    background:#e50914;
-    animation:load 1s infinite;
+    height:100%;
+    background:var(--red);
+    animation:loading 1s infinite;
 }
 
-@keyframes load{
+@keyframes loading{
     from{
         transform:translateX(-150%);
     }
+
     to{
         transform:translateX(300%);
     }
 }
 
-.empty{
-    text-align:center;
-    color:#888;
-    padding:20px;
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+
+    background:#050505;
+    color:white;
+
+    padding:13px 18px;
+    border-radius:10px;
+
+    z-index:5000;
+
+    opacity:0;
+    transition:.3s;
 }
 
-@media(max-width:600px){
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .container{
+        width:95%;
+        margin:15px auto;
+    }
+
+    .nav{
+        min-height:58px;
+    }
+
+    .logo{
+        font-size:31px;
+    }
+
+    .logout{
+        padding:8px 11px;
+        font-size:12px;
+    }
+
+    .welcome{
+        padding:23px;
+        border-radius:18px;
+    }
 
     .welcome h1{
         font-size:23px;
     }
 
-    .logo{
-        font-size:30px;
+    .card{
+        padding:16px;
+        border-radius:16px;
+    }
+
+    .member-grid{
+        grid-template-columns:1fr;
+    }
+
+    .composer-tools{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .upload-buttons{
+        width:100%;
+    }
+
+    .upload-btn{
+        flex:1;
+    }
+
+    .post-btn{
+        width:100%;
+    }
+
+    .post-media img,
+    .post-media video{
+        max-height:400px;
+    }
+}
+
+@media(max-width:400px){
+
+    .welcome h1{
+        font-size:20px;
+    }
+
+    .profile-pic{
+        width:65px;
+        height:65px;
+    }
+
+    .profile-name{
+        font-size:17px;
+    }
+
+    .upload-btn{
+        font-size:12px;
+        padding:9px;
     }
 }
 </style>
 </head>
 
 <body>
+
+<!-- LOADING -->
 
 <div id="loading">
 
@@ -374,6 +672,8 @@ button{
 </div>
 
 
+<!-- HEADER -->
+
 <header>
 
     <div class="nav">
@@ -382,52 +682,73 @@ button{
             F<span>4</span>
         </div>
 
-        <button
-            class="logout"
-            id="logoutBtn"
-        >
-            Logout
-        </button>
+        <div class="nav-right">
+
+            <button
+                class="logout"
+                id="logoutBtn"
+            >
+                Logout
+            </button>
+
+        </div>
 
     </div>
 
 </header>
 
 
-<div class="container">
-
+<main class="container">
 
 <!-- WELCOME -->
 
-<div class="welcome">
+<section class="welcome">
 
     <h1>
-        Welcome, <span id="welcomeName">F4 Member</span> 👑
+        Welcome,
+        <span id="welcomeName">
+            F4 Member
+        </span>
+        👑
     </h1>
 
-    <p style="margin-top:8px;color:#ccc;">
+    <p>
         Welcome to the F4 Community.
+        Stay active. Stay united.
     </p>
 
-</div>
+</section>
 
 
 <!-- PROFILE -->
 
-<div class="card">
+<section class="card">
 
-    <h2>👤 My Profile</h2>
+    <div class="card-title">
+        👤 My Profile
+    </div>
 
     <div class="profile">
 
-        <div
-            class="profile-pic"
-            id="profilePic"
-        >
-            F
+        <div class="profile-pic-wrapper">
+
+            <div
+                class="profile-pic"
+                id="profilePic"
+            >
+                F
+            </div>
+
+            <button
+                class="change-photo"
+                id="changePhoto"
+            >
+                +
+            </button>
+
         </div>
 
-        <div>
+        <div class="profile-info">
 
             <div
                 class="profile-name"
@@ -447,88 +768,155 @@ button{
 
     </div>
 
-</div>
+    <input
+        type="file"
+        id="profilePhotoInput"
+        accept="image/*"
+        hidden
+    >
+
+</section>
 
 
 <!-- ANNOUNCEMENTS -->
 
-<div class="card announcement">
+<section class="card announcement-card">
 
-    <h2>📢 F4 Announcements</h2>
-
-    <div id="announcements">
-
-        Loading announcements...
-
+    <div class="card-title">
+        📢 F4 Announcements
     </div>
 
-</div>
+    <div id="announcements">
+        Loading announcements...
+    </div>
+
+</section>
 
 
 <!-- CREATE POST -->
 
-<div class="card">
+<section class="card composer">
 
-    <h2>📝 Create a Post</h2>
+    <div class="card-title">
+        📝 Create a Post
+    </div>
 
     <textarea
         id="postText"
         placeholder="Say something to the F4 family..."
     ></textarea>
 
-    <button
-        class="post-btn"
-        id="postBtn"
-    >
-        Post
-    </button>
+    <div class="upload-preview">
 
-</div>
+        <img
+            id="imagePreview"
+            class="preview-image"
+        >
 
-
-<!-- POSTS -->
-
-<div class="card">
-
-    <h2>🔥 F4 Feed</h2>
-
-    <div id="feed">
-
-        Loading posts...
+        <video
+            id="videoPreview"
+            class="preview-video"
+            controls
+        ></video>
 
     </div>
 
-</div>
+    <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        hidden
+    >
+
+    <input
+        type="file"
+        id="videoInput"
+        accept="video/*"
+        hidden
+    >
+
+    <div class="composer-tools">
+
+        <div class="upload-buttons">
+
+            <button
+                class="upload-btn"
+                id="imageButton"
+            >
+                🖼️ Photo
+            </button>
+
+            <button
+                class="upload-btn"
+                id="videoButton"
+            >
+                🎥 Video
+            </button>
+
+        </div>
+
+        <button
+            class="post-btn"
+            id="postBtn"
+        >
+            Post
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- FEED -->
+
+<section class="card">
+
+    <div class="card-title">
+        🔥 F4 Feed
+    </div>
+
+    <div id="feed">
+        Loading posts...
+    </div>
+
+</section>
 
 
 <!-- MEMBERS -->
 
-<div class="card">
+<section class="card">
 
-    <h2>👥 F4 Members</h2>
-
-    <div id="members">
-
-        Loading members...
-
+    <div class="card-title">
+        👥 F4 Members
     </div>
 
-</div>
- <a href="admin.html">Admin Panel</a>
+    <div
+        class="member-grid"
+        id="members"
+    >
+        Loading members...
+    </div>
 
-</div>
+</section>
+
+</main>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
 
 
 <script type="module">
 
-/* =====================================
+/* =====================================================
    FIREBASE
-===================================== */
+===================================================== */
 
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-
 
 import {
     getAuth,
@@ -536,26 +924,25 @@ import {
     signOut
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
-
 import {
     getFirestore,
+    collection,
     doc,
     getDoc,
     setDoc,
     updateDoc,
-    collection,
     addDoc,
     deleteDoc,
     onSnapshot,
-    serverTimestamp,
     query,
-    orderBy
+    orderBy,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
-/* =====================================
-   CONFIG
-===================================== */
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
 
 const firebaseConfig = {
 
@@ -582,6 +969,10 @@ const firebaseConfig = {
 };
 
 
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
 const app =
 initializeApp(firebaseConfig);
 
@@ -592,13 +983,31 @@ const db =
 getFirestore(app);
 
 
+/* =====================================================
+   CLOUDINARY
+===================================================== */
+
+const CLOUDINARY_CLOUD =
+"dtdvur5lw";
+
+const CLOUDINARY_PRESET =
+"emmanuel";
+
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
 let currentUser = null;
 let currentProfile = null;
 
+let selectedImage = null;
+let selectedVideo = null;
 
-/* =====================================
+
+/* =====================================================
    AUTH
-===================================== */
+===================================================== */
 
 onAuthStateChanged(
     auth,
@@ -612,13 +1021,11 @@ onAuthStateChanged(
             return;
         }
 
-
         currentUser = user;
-
 
         try{
 
-            await loadUserProfile();
+            await loadProfile();
 
             loadAnnouncements();
 
@@ -626,19 +1033,16 @@ onAuthStateChanged(
 
             loadPosts();
 
-
             document
             .getElementById("loading")
-            .style.display =
-            "none";
-
+            .style.display = "none";
 
         }catch(error){
 
             console.error(error);
 
-            alert(
-                "Unable to load your F4 profile."
+            showToast(
+                "Unable to load your profile."
             );
 
         }
@@ -647,17 +1051,11 @@ onAuthStateChanged(
 );
 
 
-/* =====================================
-   USER PROFILE
+/* =====================================================
+   PROFILE
+===================================================== */
 
-   IMPORTANT FIX:
-
-   We use the logged-in Firebase UID.
-   We DON'T reject the user simply
-   because f4Member was missing.
-===================================== */
-
-async function loadUserProfile(){
+async function loadProfile(){
 
     const userRef =
     doc(
@@ -666,26 +1064,18 @@ async function loadUserProfile(){
         currentUser.uid
     );
 
-
-    const userSnap =
+    const snapshot =
     await getDoc(userRef);
 
+    let data;
 
-    let data = {};
 
-
-    if(userSnap.exists()){
+    if(snapshot.exists()){
 
         data =
-        userSnap.data();
+        snapshot.data();
 
     }else{
-
-        /*
-        If the Auth account exists but
-        the Firestore profile doesn't,
-        create the profile now.
-        */
 
         data = {
 
@@ -703,11 +1093,12 @@ async function loadUserProfile(){
 
             f4Member:true,
 
+            photoURL:"",
+
             createdAt:
             serverTimestamp()
 
         };
-
 
         await setDoc(
             userRef,
@@ -718,8 +1109,8 @@ async function loadUserProfile(){
 
 
     /*
-    Make sure existing website users
-    are recognized as F4 members.
+       Existing authenticated users are
+       recognized as F4 members.
     */
 
     if(data.f4Member !== true){
@@ -739,8 +1130,19 @@ async function loadUserProfile(){
     currentProfile = data;
 
 
+    updateProfileUI();
+
+}
+
+
+/* =====================================================
+   UPDATE PROFILE UI
+===================================================== */
+
+function updateProfileUI(){
+
     const name =
-    data.name ||
+    currentProfile.name ||
     currentUser.displayName ||
     currentUser.email
     ?.split("@")[0] ||
@@ -762,13 +1164,9 @@ async function loadUserProfile(){
     document
     .getElementById("profileEmail")
     .textContent =
-    data.email ||
+    currentProfile.email ||
     currentUser.email ||
     "";
-
-
-    const pic =
-    data.photoURL;
 
 
     const profilePic =
@@ -777,153 +1175,332 @@ async function loadUserProfile(){
     );
 
 
-    if(pic){
+    if(currentProfile.photoURL){
 
         profilePic.innerHTML =
-        `<img src="${escapeHTML(pic)}">`;
+        `
+        <img
+            src="${escapeHTML(
+                currentProfile.photoURL
+            )}"
+        >
+        `;
 
     }else{
 
         profilePic.textContent =
-        name.charAt(0).toUpperCase();
+        name.charAt(0)
+        .toUpperCase();
 
     }
 
 }
 
 
-/* =====================================
-   LOGOUT
-===================================== */
+/* =====================================================
+   PROFILE PHOTO BUTTON
+===================================================== */
 
 document
-.getElementById("logoutBtn")
+.getElementById("changePhoto")
 .addEventListener(
     "click",
-    async () => {
+    () => {
 
-        await signOut(auth);
-
-        window.location.href =
-        "login.html";
+        document
+        .getElementById(
+            "profilePhotoInput"
+        )
+        .click();
 
     }
 );
 
 
-/* =====================================
-   ANNOUNCEMENTS
-===================================== */
+/* =====================================================
+   PROFILE PHOTO UPLOAD
+===================================================== */
 
-function loadAnnouncements(){
+document
+.getElementById("profilePhotoInput")
+.addEventListener(
+    "change",
+    async event => {
 
-    const q =
-    query(
+        const file =
+        event.target.files[0];
 
-        collection(
-            db,
-            "announcements"
-        ),
-
-        orderBy(
-            "createdAt",
-            "desc"
-        )
-
-    );
+        if(!file)
+            return;
 
 
-    onSnapshot(
+        if(!file.type.startsWith("image/")){
 
-        q,
+            showToast(
+                "Please select an image."
+            );
 
-        snapshot => {
+            return;
 
-            const container =
-            document.getElementById(
-                "announcements"
+        }
+
+
+        try{
+
+            showToast(
+                "Uploading profile picture..."
             );
 
 
-            container.innerHTML = "";
+            const url =
+            await uploadToCloudinary(
+                file,
+                "image"
+            );
 
 
-            if(snapshot.empty){
+            await updateDoc(
 
-                container.innerHTML =
-                `
-                <div class="empty">
-                    No announcements yet.
-                </div>
-                `;
+                doc(
+                    db,
+                    "users",
+                    currentUser.uid
+                ),
 
-                return;
-            }
-
-
-            snapshot.forEach(
-                announcement => {
-
-                    const data =
-                    announcement.data();
-
-
-                    const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                    div.className =
-                    "announcement-item";
-
-
-                    div.innerHTML =
-                    `
-                    <p>
-                        ${escapeHTML(
-                            data.text || ""
-                        )}
-                    </p>
-
-                    <small>
-                        📢 F4 Administration
-                    </small>
-                    `;
-
-
-                    container.appendChild(div);
-
+                {
+                    photoURL:url
                 }
+
             );
 
-        },
 
-        error => {
+            currentProfile.photoURL =
+            url;
+
+
+            updateProfileUI();
+
+
+            showToast(
+                "Profile picture updated! ✅"
+            );
+
+
+        }catch(error){
 
             console.error(error);
 
-            document
-            .getElementById(
-                "announcements"
-            )
-            .innerHTML =
-            `
-            <div class="empty">
-                Announcements unavailable.
-            </div>
-            `;
+            showToast(
+                "Profile picture upload failed."
+            );
 
+        }
+
+    }
+);
+
+
+/* =====================================================
+   IMAGE BUTTON
+===================================================== */
+
+document
+.getElementById("imageButton")
+.addEventListener(
+    "click",
+    () => {
+
+        document
+        .getElementById("imageInput")
+        .click();
+
+    }
+);
+
+
+/* =====================================================
+   VIDEO BUTTON
+===================================================== */
+
+document
+.getElementById("videoButton")
+.addEventListener(
+    "click",
+    () => {
+
+        document
+        .getElementById("videoInput")
+        .click();
+
+    }
+);
+
+
+/* =====================================================
+   IMAGE SELECTED
+===================================================== */
+
+document
+.getElementById("imageInput")
+.addEventListener(
+    "change",
+    event => {
+
+        const file =
+        event.target.files[0];
+
+        if(!file)
+            return;
+
+
+        selectedImage = file;
+
+        selectedVideo = null;
+
+
+        const imagePreview =
+        document.getElementById(
+            "imagePreview"
+        );
+
+        const videoPreview =
+        document.getElementById(
+            "videoPreview"
+        );
+
+
+        videoPreview.style.display =
+        "none";
+
+        videoPreview.src = "";
+
+
+        imagePreview.src =
+        URL.createObjectURL(file);
+
+        imagePreview.style.display =
+        "block";
+
+    }
+);
+
+
+/* =====================================================
+   VIDEO SELECTED
+===================================================== */
+
+document
+.getElementById("videoInput")
+.addEventListener(
+    "change",
+    event => {
+
+        const file =
+        event.target.files[0];
+
+        if(!file)
+            return;
+
+
+        selectedVideo = file;
+
+        selectedImage = null;
+
+
+        const imagePreview =
+        document.getElementById(
+            "imagePreview"
+        );
+
+        const videoPreview =
+        document.getElementById(
+            "videoPreview"
+        );
+
+
+        imagePreview.style.display =
+        "none";
+
+        imagePreview.src = "";
+
+
+        videoPreview.src =
+        URL.createObjectURL(file);
+
+        videoPreview.style.display =
+        "block";
+
+    }
+);
+
+
+/* =====================================================
+   CLOUDINARY UPLOAD
+===================================================== */
+
+async function uploadToCloudinary(
+    file,
+    type
+){
+
+    const formData =
+    new FormData();
+
+
+    formData.append(
+        "file",
+        file
+    );
+
+
+    formData.append(
+        "upload_preset",
+        CLOUDINARY_PRESET
+    );
+
+
+    const resourceType =
+    type === "video"
+    ?
+    "video"
+    :
+    "image";
+
+
+    const response =
+    await fetch(
+
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/${resourceType}/upload`,
+
+        {
+            method:"POST",
+            body:formData
         }
 
     );
 
+
+    if(!response.ok){
+
+        throw new Error(
+            "Cloudinary upload failed"
+        );
+
+    }
+
+
+    const data =
+    await response.json();
+
+
+    return data.secure_url;
+
 }
 
 
-/* =====================================
+/* =====================================================
    CREATE POST
-===================================== */
+===================================================== */
 
 document
 .getElementById("postBtn")
@@ -931,27 +1508,78 @@ document
     "click",
     async () => {
 
-        const textarea =
-        document.getElementById(
-            "postText"
-        );
-
-
         const text =
-        textarea.value.trim();
+        document
+        .getElementById("postText")
+        .value
+        .trim();
 
 
-        if(!text){
+        if(
+            !text &&
+            !selectedImage &&
+            !selectedVideo
+        ){
 
-            alert(
-                "Write something first."
+            showToast(
+                "Write something or add a photo/video."
             );
 
             return;
+
         }
 
 
+        const button =
+        document.getElementById(
+            "postBtn"
+        );
+
+
+        button.disabled = true;
+
+        button.textContent =
+        "Posting...";
+
+
         try{
+
+            let mediaURL = "";
+
+            let mediaType = "";
+
+
+            /* IMAGE */
+
+            if(selectedImage){
+
+                mediaURL =
+                await uploadToCloudinary(
+                    selectedImage,
+                    "image"
+                );
+
+                mediaType =
+                "image";
+
+            }
+
+
+            /* VIDEO */
+
+            if(selectedVideo){
+
+                mediaURL =
+                await uploadToCloudinary(
+                    selectedVideo,
+                    "video"
+                );
+
+                mediaType =
+                "video";
+
+            }
+
 
             await addDoc(
 
@@ -966,17 +1594,24 @@ document
                     currentUser.uid,
 
                     name:
-                    currentProfile.name,
+                    currentProfile.name ||
+                    "F4 Member",
 
                     email:
-                    currentUser.email,
+                    currentUser.email ||
+                    "",
 
                     photoURL:
                     currentProfile.photoURL ||
                     "",
 
-                    text:
-                    text,
+                    text:text,
+
+                    mediaURL:
+                    mediaURL,
+
+                    mediaType:
+                    mediaType,
 
                     createdAt:
                     serverTimestamp()
@@ -986,16 +1621,28 @@ document
             );
 
 
-            textarea.value = "";
+            clearComposer();
+
+
+            showToast(
+                "Posted successfully! 🔥"
+            );
 
 
         }catch(error){
 
             console.error(error);
 
-            alert(
-                "Unable to create post."
+            showToast(
+                "Could not create post."
             );
+
+        }finally{
+
+            button.disabled = false;
+
+            button.textContent =
+            "Post";
 
         }
 
@@ -1003,9 +1650,59 @@ document
 );
 
 
-/* =====================================
+/* =====================================================
+   CLEAR COMPOSER
+===================================================== */
+
+function clearComposer(){
+
+    document
+    .getElementById("postText")
+    .value = "";
+
+
+    document
+    .getElementById("imageInput")
+    .value = "";
+
+
+    document
+    .getElementById("videoInput")
+    .value = "";
+
+
+    selectedImage = null;
+
+    selectedVideo = null;
+
+
+    document
+    .getElementById("imagePreview")
+    .style.display =
+    "none";
+
+
+    document
+    .getElementById("videoPreview")
+    .style.display =
+    "none";
+
+
+    document
+    .getElementById("imagePreview")
+    .src = "";
+
+
+    document
+    .getElementById("videoPreview")
+    .src = "";
+
+}
+
+
+/* =====================================================
    LOAD POSTS
-===================================== */
+===================================================== */
 
 function loadPosts(){
 
@@ -1050,36 +1747,90 @@ function loadPosts(){
                 `;
 
                 return;
+
             }
 
 
             snapshot.forEach(
                 postDoc => {
 
-                    const post =
+                    const data =
                     postDoc.data();
 
 
-                    const div =
+                    const post =
                     document.createElement(
                         "div"
                     );
 
 
-                    div.className =
+                    post.className =
                     "post";
 
 
+                    const name =
+                    data.name ||
+                    "F4 Member";
+
+
                     const initial =
-                    (
-                        post.name ||
-                        "F"
-                    )
+                    name
                     .charAt(0)
                     .toUpperCase();
 
 
-                    div.innerHTML =
+                    let mediaHTML = "";
+
+
+                    if(
+                        data.mediaType ===
+                        "image" &&
+                        data.mediaURL
+                    ){
+
+                        mediaHTML =
+                        `
+                        <div class="post-media">
+
+                            <img
+                                src="${escapeHTML(
+                                    data.mediaURL
+                                )}"
+                                loading="lazy"
+                            >
+
+                        </div>
+                        `;
+
+                    }
+
+
+                    if(
+                        data.mediaType ===
+                        "video" &&
+                        data.mediaURL
+                    ){
+
+                        mediaHTML =
+                        `
+                        <div class="post-media">
+
+                            <video
+                                src="${escapeHTML(
+                                    data.mediaURL
+                                )}"
+                                controls
+                                playsinline
+                                preload="metadata"
+                            ></video>
+
+                        </div>
+                        `;
+
+                    }
+
+
+                    post.innerHTML =
                     `
 
                     <div class="post-header">
@@ -1087,11 +1838,15 @@ function loadPosts(){
                         <div class="post-avatar">
 
                             ${
-                                post.photoURL
+                                data.photoURL
                                 ?
-                                `<img src="${escapeHTML(
-                                    post.photoURL
-                                )}">`
+                                `
+                                <img
+                                    src="${escapeHTML(
+                                        data.photoURL
+                                    )}"
+                                >
+                                `
                                 :
                                 initial
                             }
@@ -1099,19 +1854,20 @@ function loadPosts(){
                         </div>
 
 
-                        <div>
+                        <div class="post-user">
 
                             <div class="post-name">
 
                                 ${escapeHTML(
-                                    post.name ||
-                                    "F4 Member"
+                                    name
                                 )}
 
                             </div>
 
                             <div class="post-time">
+
                                 F4 Community
+
                             </div>
 
                         </div>
@@ -1119,13 +1875,24 @@ function loadPosts(){
                     </div>
 
 
-                    <div class="post-text">
+                    ${
+                        data.text
+                        ?
+                        `
+                        <div class="post-text">
 
-                        ${escapeHTML(
-                            post.text || ""
-                        )}
+                            ${escapeHTML(
+                                data.text
+                            )}
 
-                    </div>
+                        </div>
+                        `
+                        :
+                        ""
+                    }
+
+
+                    ${mediaHTML}
 
 
                     <div class="post-actions">
@@ -1134,14 +1901,14 @@ function loadPosts(){
                             ❤️ Like
                         </button>
 
+
                         ${
-                            post.uid ===
+                            data.uid ===
                             currentUser.uid
                             ?
                             `
                             <button
                                 class="delete-post"
-                                data-id="${postDoc.id}"
                             >
                                 🗑️ Delete
                             </button>
@@ -1155,11 +1922,11 @@ function loadPosts(){
                     `;
 
 
-                    feed.appendChild(div);
+                    feed.appendChild(post);
 
 
                     const deleteButton =
-                    div.querySelector(
+                    post.querySelector(
                         ".delete-post"
                     );
 
@@ -1173,7 +1940,7 @@ function loadPosts(){
 
                                 if(
                                     !confirm(
-                                        "Delete this post?"
+                                        "Delete your post?"
                                     )
                                 ){
 
@@ -1194,14 +1961,20 @@ function loadPosts(){
 
                                     );
 
+
+                                    showToast(
+                                        "Post deleted."
+                                    );
+
+
                                 }catch(error){
 
                                     console.error(
                                         error
                                     );
 
-                                    alert(
-                                        "You cannot delete this post."
+                                    showToast(
+                                        "You can only delete your own posts."
                                     );
 
                                 }
@@ -1214,6 +1987,21 @@ function loadPosts(){
                 }
             );
 
+        },
+
+        error => {
+
+            console.error(error);
+
+            document
+            .getElementById("feed")
+            .innerHTML =
+            `
+            <div class="empty">
+                Unable to load the F4 feed.
+            </div>
+            `;
+
         }
 
     );
@@ -1221,12 +2009,9 @@ function loadPosts(){
 }
 
 
-/* =====================================
-   MEMBERS
-
-   ONLY profiles marked f4Member:true
-   are displayed.
-===================================== */
+/* =====================================================
+   LOAD MEMBERS
+===================================================== */
 
 function loadMembers(){
 
@@ -1239,13 +2024,13 @@ function loadMembers(){
 
         snapshot => {
 
-            const container =
+            const members =
             document.getElementById(
                 "members"
             );
 
 
-            container.innerHTML = "";
+            members.innerHTML = "";
 
 
             let count = 0;
@@ -1259,8 +2044,10 @@ function loadMembers(){
 
 
                     /*
-                    Don't show unrelated
-                    Firebase user documents.
+                    IMPORTANT:
+
+                    Only users who have
+                    f4Member:true appear.
                     */
 
                     if(
@@ -1268,6 +2055,7 @@ function loadMembers(){
                     ){
 
                         return;
+
                     }
 
 
@@ -1303,9 +2091,13 @@ function loadMembers(){
                         ${
                             data.photoURL
                             ?
-                            `<img src="${escapeHTML(
-                                data.photoURL
-                            )}">`
+                            `
+                            <img
+                                src="${escapeHTML(
+                                    data.photoURL
+                                )}"
+                            >
+                            `
                             :
                             initial
                         }
@@ -1313,11 +2105,13 @@ function loadMembers(){
                     </div>
 
 
-                    <div class="member-info">
+                    <div>
 
                         <div class="member-name">
 
-                            ${escapeHTML(name)}
+                            ${escapeHTML(
+                                name
+                            )}
 
                         </div>
 
@@ -1332,7 +2126,7 @@ function loadMembers(){
                     `;
 
 
-                    container.appendChild(div);
+                    members.appendChild(div);
 
                 }
             );
@@ -1340,10 +2134,10 @@ function loadMembers(){
 
             if(count === 0){
 
-                container.innerHTML =
+                members.innerHTML =
                 `
                 <div class="empty">
-                    You're the first F4 member.
+                    No other F4 members yet.
                 </div>
                 `;
 
@@ -1356,9 +2150,164 @@ function loadMembers(){
 }
 
 
-/* =====================================
+/* =====================================================
+   ANNOUNCEMENTS
+===================================================== */
+
+function loadAnnouncements(){
+
+    const q =
+    query(
+
+        collection(
+            db,
+            "announcements"
+        ),
+
+        orderBy(
+            "createdAt",
+            "desc"
+        )
+
+    );
+
+
+    onSnapshot(
+
+        q,
+
+        snapshot => {
+
+            const container =
+            document.getElementById(
+                "announcements"
+            );
+
+
+            container.innerHTML = "";
+
+
+            if(snapshot.empty){
+
+                container.innerHTML =
+                `
+                <div class="empty">
+                    No announcements yet.
+                </div>
+                `;
+
+                return;
+
+            }
+
+
+            snapshot.forEach(
+                announcementDoc => {
+
+                    const data =
+                    announcementDoc.data();
+
+
+                    const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                    div.className =
+                    "announcement";
+
+
+                    div.innerHTML =
+                    `
+
+                    <div class="announcement-text">
+
+                        ${escapeHTML(
+                            data.text || ""
+                        )}
+
+                    </div>
+
+
+                    <div class="announcement-footer">
+
+                        📢 F4 Administration
+
+                    </div>
+
+                    `;
+
+
+                    container.appendChild(div);
+
+                }
+            );
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+.getElementById("logoutBtn")
+.addEventListener(
+    "click",
+    async () => {
+
+        await signOut(auth);
+
+        window.location.href =
+        "login.html";
+
+    }
+);
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+    toast.textContent =
+    message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        3000
+    );
+
+}
+
+
+/* =====================================================
    ESCAPE HTML
-===================================== */
+===================================================== */
 
 function escapeHTML(value){
 
